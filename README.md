@@ -1,7 +1,7 @@
 tadbit-backend
 ==============
 
-'''
+```
 /tags
   GET         - returns all tags in db
   POST        - adds a new tag to db
@@ -13,4 +13,4 @@ tadbit-backend
   GET         - returns details for card of :id
   PUT         - updates details for card of :id
   DELETE      - deletes card of :id
-'''
+```
