@@ -1,0 +1,30 @@
+{
+  "name": "tadbit-backend",
+  "version": "0.0.1",
+  "author": "Tadbit <support@tad-bit.com>",
+  "description": "The RESTful API backing Tadbit flashcards",
+  "contributors": [
+    {
+      "name": "Michal Garbacz",
+      "email": "michal@tad-bit.com"
+    },
+    {
+      "name": "Victor Zhagui",
+      "email": "victor@tad-bit.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgarbacz/tadbit-backend.git"
+  },
+  "dependencies": {
+    "express": "3.0.x",
+    "mongodb": "1.1.x",
+    "mongoose": "2.7.x",
+    "path": "0.4.x"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.8.5"
+  }
+}
