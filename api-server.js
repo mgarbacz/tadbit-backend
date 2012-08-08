@@ -28,8 +28,8 @@ var Tag = new Schema({
 var Card = new Schema({
     question: String,
     answer: String,
-    difficulty: Number,
-    tags: [String]
+    difficulty: { type: String, enum: ['easy', 'medium', 'hard'] },
+    tags: [Tag]
 });
 
 var TagModel = mongoose.model('Tag', Tag);
