@@ -45,7 +45,7 @@ var CardModel = mongoose.model('Card', Card);
 // API spec
 // tags
 app.get('/tags', function(req, res) {
-  return TagModel.find().desc('value').exec(function(error, tags) {
+  return TagModel.find().sort('value', 'desc').exec(function(error, tags) {
     if (!error) {
       return res.send(tags);
     } else {
