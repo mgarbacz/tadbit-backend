@@ -6,11 +6,10 @@ var application_root = __dirname,
 
 var app = express();
 
-var allowCrossDomain = function(request, response, next) {
-  response.header('Access-Control-Allow-Origin', request.headers.origin);
-  response.header('Access-Control-Allow-Methods', 
-                  'GET,PUT,POST,DELETE,OPTIONS');
-  response.header('Access-Control-Allow-Headers', 'Content-Type');
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 }
 
@@ -45,22 +44,22 @@ var CardModel = mongoose.model('Card', Card);
 
 // API spec
 // tags
-app.get('/tags', function(request, response) {
+app.get('/tags', function(req, res) {
   return TagModel.find().desc('value').exec(function(error, tags) {
     if (!error) {
-      return response.send(tags);
+      return res.send(tags);
     } else {
       return console.log(error);
     }
   });
 });
 
-app.post('/tags', function(request, response) {
+app.post('/tags', function(req, res) {
   var tag;
   console.log('POST: ');
-  console.log(request.body);
+  console.log(req.body);
   tag = new TagModel({
-    _id: request.body._id
+    _id: req.body._id
   });
   tag.save(function(error) {
     if (!error) {
@@ -69,29 +68,29 @@ app.post('/tags', function(request, response) {
       return console.log(error);
     }
   });
-  return response.send(tag);
+  return res.send(tag);
 });
 
 // cards
-app.get('/cards', function(request, response) {
+app.get('/cards', function(req, res) {
   return CardModel.find(function(error, cards) {
     if (!error) {
-      return response.send(cards);
+      return res.send(cards);
     } else {
       return console.log(error);
     }
   });
 });
 
-app.post('/cards', function(request, response) {
+app.post('/cards', function(req, res) {
   var card;
   console.log('POST: ');
-  console.log(request.body);
+  console.log(req.body);
   card = new CardModel({
-    question: request.body.question,
-    answer: request.body.answer,
-    difficulty: request.body.difficulty,
-    tags: request.body.tags
+    question: req.body.question,
+    answer: req.body.answer,
+    difficulty: req.body.difficulty,
+    tags: req.body.tags
   });
   card.save(function(error) {
     if (!error) {
@@ -100,30 +99,30 @@ app.post('/cards', function(request, response) {
       return console.log(error);
     }
   });
-  return response.send(card);
+  return res.send(card);
 });
 
 // cards by id
-app.get('/cards/:id', function(request, response, next) {
-  return CardModel.findById(request.params.id, function(error, card) {
+app.get('/cards/:id', function(req, res, next) {
+  return CardModel.findById(req.params.id, function(error, card) {
     if (!error) {
-      return response.send(card);
+      return res.send(card);
     } else {
       return console.log(error);
     }
   });
 });
 
-app.put('/cards/:id', function(request, response) {
-  return CardModel.findById(request.params.id, function(error, card) {
-    card.question = request.body.question;
-    card.answer = request.body.answer;
-    card.difficulty = request.body.difficulty;
-    card.tags = request.body.tags;
+app.put('/cards/:id', function(req, res) {
+  return CardModel.findById(req.params.id, function(error, card) {
+    card.question = req.body.question;
+    card.answer = req.body.answer;
+    card.difficulty = req.body.difficulty;
+    card.tags = req.body.tags;
     return card.save(function(error) {
       if (!error) {
         console.log('Card updated successfully');
-        return response.send('');
+        return res.send('');
       } else {
         return console.log(error);
       }
@@ -131,12 +130,12 @@ app.put('/cards/:id', function(request, response) {
   });
 });
 
-app.delete('/cards/:id', function(request, response) {
-  return CardModel.findById(request.params.id, function(error, card) {
+app.delete('/cards/:id', function(req, res) {
+  return CardModel.findById(req.params.id, function(error, card) {
     return card.remove(function(error) {
       if (!error) {
         console.log('Card removed successfully');
-        return response.send('');
+        return res.send('');
       } else {
         return console.log(error);
       }
@@ -145,11 +144,11 @@ app.delete('/cards/:id', function(request, response) {
 });
 
 // cards by tags
-app.get('/cards/:tags', function(request, response, next) {
-  return CardModel.find().where('tags').in([request.params.tags])
+app.get('/cards/:tags', function(req, res, next) {
+  return CardModel.find().where('tags').in([req.params.tags])
                   .exec(function(error, card) {
     if (!error) {
-      return response.send(card);
+      return res.send(card);
     } else {
       return console.log(error);
     }
