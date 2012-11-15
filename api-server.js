@@ -45,8 +45,10 @@ var CardModel = mongoose.model('Card', Card);
 // API spec
 // tags
 app.get('/tags', function(req, res) {
+  console.log('GET tags all');
   return TagModel.find().sort('value', 'desc').exec(function(error, tags) {
     if (!error) {
+      console.log('Tags read successfully');
       return res.send(tags);
     } else {
       return console.log(error);
@@ -55,10 +57,9 @@ app.get('/tags', function(req, res) {
 });
 
 app.post('/tags', function(req, res) {
-  var tag;
-  console.log('POST: ');
+  console.log('POST tag new');
   console.log(req.body);
-  tag = new TagModel({
+  var tag = new TagModel({
     _id: req.body._id
   });
   tag.save(function(error) {
@@ -73,8 +74,10 @@ app.post('/tags', function(req, res) {
 
 // cards
 app.get('/cards', function(req, res) {
+  console.log('GET cards all');
   return CardModel.find(function(error, cards) {
     if (!error) {
+      console.log('Cards read successfully');
       return res.send(cards);
     } else {
       return console.log(error);
@@ -83,10 +86,9 @@ app.get('/cards', function(req, res) {
 });
 
 app.post('/cards', function(req, res) {
-  var card;
-  console.log('POST: ');
+  console.log('POST card new ');
   console.log(req.body);
-  card = new CardModel({
+  var card = new CardModel({
     question: req.body.question,
     answer: req.body.answer,
     difficulty: req.body.difficulty,
@@ -104,8 +106,10 @@ app.post('/cards', function(req, res) {
 
 // cards by id
 app.get('/cards/:id', function(req, res, next) {
+  console.log('GET card '+ req.params.id);
   return CardModel.findById(req.params.id, function(error, card) {
     if (!error) {
+      console.log('Card read successfully');
       return res.send(card);
     } else {
       return console.log(error);
@@ -114,6 +118,7 @@ app.get('/cards/:id', function(req, res, next) {
 });
 
 app.put('/cards/:id', function(req, res) {
+  console.log('PUT card ' + req.params.id);
   return CardModel.findById(req.params.id, function(error, card) {
     card.question = req.body.question;
     card.answer = req.body.answer;
@@ -131,6 +136,7 @@ app.put('/cards/:id', function(req, res) {
 });
 
 app.delete('/cards/:id', function(req, res) {
+  console.log('DELETE card ' + req.params.id);
   return CardModel.findById(req.params.id, function(error, card) {
     return card.remove(function(error) {
       if (!error) {
@@ -145,9 +151,11 @@ app.delete('/cards/:id', function(req, res) {
 
 // cards by tags
 app.get('/cards/:tags', function(req, res, next) {
-  return CardModel.find().where('tags').in([req.params.tags])
-                  .exec(function(error, card) {
+  console.log('GET cards ' + req.params.tags);
+  return CardModel
+    .find().where('tags').in([req.params.tags]).exec(function(error, card) {
     if (!error) {
+      console.log('Cards read successfully');
       return res.send(card);
     } else {
       return console.log(error);
