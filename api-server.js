@@ -23,7 +23,9 @@ app.configure(function() {
 });
 
 // Database
-mongoose.connect('mongodb://localhost/tadbit_database');
+var mongoUri = process.env.MONGOLAB_URI || 
+  'mongodb://localhost/tadbit_database';
+mongoose.connect(mongoUri);
 
 var Schema = mongoose.Schema;
 
