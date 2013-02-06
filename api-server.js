@@ -163,6 +163,8 @@ app.get('/cards/:tags', function(req, res, next) {
   });
 });
 
-app.listen(8124);
+var port = process.env.PORT || 8124;
+app.listen(port, function() {
+  console.log('Listening on ' + port);
+});
 
-console.log('Server running at http://127.0.0.1:8124/');
