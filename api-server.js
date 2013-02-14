@@ -45,7 +45,9 @@ var TagModel = mongoose.model('Tag', Tag);
 var CardModel = mongoose.model('Card', Card);
 
 // Update Tags via MapReduce
-map = function() {
+var options = {};
+
+options.map = function() {
   if (!this.tags)
     return;
 
@@ -53,7 +55,7 @@ map = function() {
     emit(this.tags[index], 1);
 }
 
-reduce = function(previous, current) {
+options.reduce = function(previous, current) {
   var count = 0;
 
   for (index in current)
@@ -62,13 +64,11 @@ reduce = function(previous, current) {
   return count;
 }
 
+options.out = "tags";
+
 mapReduce = function() {
-  CardModel.mapReduce({
-      "map": map,
-      "reduce": reduce,
-      "out": "tags"
-    }, function(error, model, stats) {
-    // Would be a good idea to do something here for reporting
+  CardModel.mapReduce(options, function(error, results) {
+    if (error !== null) console.log(error);
   });
 }
 
