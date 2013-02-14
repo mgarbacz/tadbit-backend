@@ -1,6 +1,6 @@
 {
   "name": "tadbit-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Tadbit",
   "description": "The RESTful API backing Tadbit flashcards",
   "contributors": [
