@@ -44,11 +44,39 @@ var Card = new Schema({
 var TagModel = mongoose.model('Tag', Tag);
 var CardModel = mongoose.model('Card', Card);
 
+// Update Tags via MapReduce
+map = function() {
+  if (!this.tags)
+    return;
+
+  for (index in this.tags)
+    emit(this.tags[index], 1);
+}
+
+reduce = function(previous, current) {
+  var count = 0;
+
+  for (index in current)
+    count += current[index]
+
+  return count;
+}
+
+mapReduce = function() {
+  CardModel.mapReduce({
+    "map": map,
+    "reduce": reduce,
+    "out": "tags"
+  }, function(error, model, stats) {
+  });
+}
+
 // API spec
 // tags
 app.get('/tags', function(req, res) {
   console.log('GET tags all');
-  return TagModel.find().sort('value', 'desc').exec(function(error, tags) {
+  mapReduce();
+  return TagModel.find().sort('-value').exec(function(error, tags) {
     if (!error) {
       console.log('Tags read successfully');
       return res.send(tags);
