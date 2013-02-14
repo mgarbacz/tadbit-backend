@@ -64,10 +64,11 @@ reduce = function(previous, current) {
 
 mapReduce = function() {
   CardModel.mapReduce({
-    "map": map,
-    "reduce": reduce,
-    "out": "tags"
-  }, function(error, model, stats) {
+      "map": map,
+      "reduce": reduce,
+      "out": "tags"
+    }, function(error, model, stats) {
+    // Would be a good idea to do something here for reporting
   });
 }
 
