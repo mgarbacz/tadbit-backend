@@ -24,8 +24,5 @@
     "mongodb": "1.2.x",
     "mongoose": "3.5.x"
   },
-  "license": "MIT",
-  "engine": {
-    "node": ">=0.8.5"
-  }
+  "license": "MIT"
 }
