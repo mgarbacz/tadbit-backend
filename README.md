@@ -14,3 +14,10 @@ API docs
   PUT         - updates details for card of :id
   DELETE      - deletes card of :id
 ```
+
+
+todos
+=====
+- Move to RoR or Sinatra
+- Use RDMS for cards
+- Write WebSockets for sync between users
