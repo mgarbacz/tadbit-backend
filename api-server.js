@@ -8,8 +8,10 @@ var app = express();
 
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://tadbit.michalgarbacz.com');
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:3333');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.send(200);
   next();
 }
 
@@ -23,7 +25,7 @@ app.configure(function() {
 });
 
 // Database
-var mongoUri = process.env.MONGOLAB_URI || 
+var mongoUri = process.env.MONGOLAB_URI ||
   'mongodb://localhost/tadbit_database';
 mongoose.connect(mongoUri);
 
